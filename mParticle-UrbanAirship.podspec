@@ -12,9 +12,21 @@ Pod::Spec.new do |s|
     s.author           = { "mParticle" => "support@mparticle.com" }
     s.source           = { :git => "https://github.com/mparticle-integrations/mparticle-apple-integration-urbanairship.git", :tag => s.version.to_s }
     s.social_media_url = "https://twitter.com/mparticles"
+    s.default_subspec  = "DefaultVersion"
 
-    s.ios.deployment_target = "8.0"
-    s.ios.source_files      = 'mParticle-UrbanAirship/*.{h,m,mm}'
-    s.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.7'
-    s.ios.dependency 'UrbanAirship-iOS-SDK', '~> 7.2.2'
+    def s.subspec_common(ss)
+        ss.ios.deployment_target = "8.0"
+        ss.ios.source_files      = 'mParticle-UrbanAirship/*.{h,m,mm}'
+        ss.ios.dependency 'mParticle-Apple-SDK/mParticle', '~> 6.7'
+    end
+
+    s.subspec 'DefaultVersion' do |ss|
+        ss.ios.dependency 'UrbanAirship-iOS-SDK', '~> 7.2.2'
+        s.subspec_common(ss)
+    end
+
+    s.subspec 'UserDefinedVersion' do |ss|
+        ss.ios.dependency 'UrbanAirship-iOS-SDK'
+        s.subspec_common(ss)
+    end
 end
